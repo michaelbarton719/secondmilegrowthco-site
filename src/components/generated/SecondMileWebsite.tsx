@@ -118,6 +118,33 @@ export const SecondMileWebsite = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
   const [scrolled, setScrolled] = useState(false);
+    const [auditStatus, setAuditStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const handleAuditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setAuditStatus('sending');
+
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+
+      const res = await fetch('https://formspree.io/f/xvzbplbb', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        setAuditStatus('success');
+        form.reset();
+      } else {
+        setAuditStatus('error');
+      }
+    } catch {
+      setAuditStatus('error');
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
@@ -560,49 +587,98 @@ export const SecondMileWebsite = () => {
               <p className="text-xl text-[#6B7280] uppercase tracking-widest font-bold">Claim your free Profit & Growth Audit below.</p>
             </div>
             
-            <form className="bg-[#1a1e23] p-10 md:p-16 border border-white/10 space-y-8" onSubmit={e => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Full Name</label>
-                  <input type="text" className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight" placeholder="JOHN DOE" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Business Name</label>
-                  <input type="text" className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight" placeholder="ACME CONTRACTING" />
-                </div>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Industry</label>
-                  <select className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight text-[#F5F4F1]">
-                    <option>SELECT INDUSTRY</option>
-                    <option>HVAC</option>
-                    <option>PLUMBING</option>
-                    <option>ELECTRICAL</option>
-                    <option>MED SPA</option>
-                    <option>OTHER</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Current Revenue Range</label>
-                  <select className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight text-[#F5F4F1]">
-                    <option>$0 - $500K</option>
-                    <option>$500K - $1M</option>
-                    <option>$1M - $5M</option>
-                    <option>$5M+</option>
-                  </select>
-                </div>
-              </div>
+          <form
+  className="bg-[#1a1e23] p-10 md:p-16 border border-white/10 space-y-8"
+  onSubmit={handleAuditSubmit}
+>
+<input type="hidden" name="_subject" value="New Free Audit Request" />
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">What is your biggest growth bottleneck?</label>
-                <textarea rows={4} className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight" placeholder="TELL US WHERE IT HURTS..." />
-              </div>
+<div className="grid md:grid-cols-2 gap-8">
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">
+      Full Name
+    </label>
+    <input
+      name="fullName"
+      type="text"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
+      placeholder="JOHN DOE"
+      required
+    />
+  </div>
 
-              <Button className="w-full justify-center py-6 text-lg">Send Audit Request</Button>
-              <p className="text-center text-[#6B7280] text-[10px] font-bold uppercase tracking-widest">Only 2 Audit Slots Left This Month</p>
-            </form>
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">
+      Business Name
+    </label>
+    <input
+      name="businessName"
+      type="text"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
+      placeholder="ACME CONTRACTING"
+      required
+    />
+  </div>
+</div>
+
+<div className="grid md:grid-cols-2 gap-8">
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">
+      Industry
+    </label>
+    <select
+      name="industry"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight text-[#F5F4F1]"
+      required
+    >
+      <option value="">SELECT INDUSTRY</option>
+      <option value="HVAC">HVAC</option>
+      <option value="PLUMBING">PLUMBING</option>
+      <option value="ELECTRICAL">ELECTRICAL</option>
+      <option value="MED SPA">MED SPA</option>
+      <option value="OTHER">OTHER</option>
+    </select>
+  </div>
+
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">
+      Current Revenue Range
+    </label>
+    <select
+      name="revenueRange"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight text-[#F5F4F1]"
+      required
+    >
+      <option value="">SELECT RANGE</option>
+      <option value="$0 - $500K">$0 - $500K</option>
+      <option value="$500K - $1M">$500K - $1M</option>
+      <option value="$1M - $5M">$1M - $5M</option>
+      <option value="$5M+">$5M+</option>
+    </select>
+  </div>
+</div>
+
+<div className="space-y-2">
+  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">
+    What is your biggest growth bottleneck?
+  </label>
+  <textarea
+    name="bottleneck"
+    rows={4}
+    className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
+    placeholder="TELL US WHERE IT HURTS..."
+    required
+  />
+</div>
+
+<Button type="submit" className="w-full justify-center py-6 text-lg">
+  Send Audit Request
+</Button>
+
+<p className="text-center text-[#6B7280] text-[10px] font-bold uppercase tracking-widest">
+  Only 2 Audit Slots Left This Month
+</p>
+
           </section>}
       </main>
 
