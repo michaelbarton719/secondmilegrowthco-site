@@ -628,27 +628,53 @@ export const SecondMileWebsite = () => {
               <input type="hidden" name="_subject" value="New Free Audit Request" />
 
               <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Full Name</label>
-                  <input
-                    name="fullName"
-                    type="text"
-                    className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
-                    placeholder="JOHN DOE"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Business Name</label>
-                  <input
-                    name="businessName"
-                    type="text"
-                    className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
-                    placeholder="ACME CONTRACTING"
-                    required
-                  />
-                </div>
-              </div>
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Full Name</label>
+    <input
+      name="fullName"
+      type="text"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
+      placeholder="JOHN DOE"
+      required
+    />
+  </div>
+
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Business Name</label>
+    <input
+      name="businessName"
+      type="text"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold uppercase tracking-tight"
+      placeholder="ACME CONTRACTING"
+      required
+    />
+  </div>
+</div>
+
+<div className="grid md:grid-cols-2 gap-8">
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Email</label>
+    <input
+      name="email"
+      type="email"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold tracking-tight"
+      placeholder="you@company.com"
+      required
+    />
+  </div>
+
+  <div className="space-y-2">
+    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B7280]">Phone Number</label>
+    <input
+      name="phone"
+      type="tel"
+      className="w-full bg-[#111418] border border-white/10 p-4 focus:border-[#C65A1E] outline-none transition-colors font-bold tracking-tight"
+      placeholder="(555) 555-5555"
+      required
+    />
+  </div>
+</div>
+
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
